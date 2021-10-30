@@ -16,21 +16,23 @@ Article.getAll = (callback) => {
       callback(err, null);
       return;
     }
-    console.log("customers: ", response);
     callback(null, response);
   });
 };
 
 Article.getAllGroupedByCategories = (callback) => {
-  sql.query("SELECT * FROM Article ORDER BY categorie", (error, response) => {
-    if (error) {
-      console.log("error: ", err);
-      callback(err, null);
-      return;
+  sql.query(
+    `SELECT titre,contenu,libelle,dateCreation,dateModification,Article.id ,Categorie.libelle 
+            FROM Article INNER JOIN Categorie on Article.categorie = Categorie.id`,
+    (error, response) => {
+      if (error) {
+        console.log("error: ", err);
+        callback(err, null);
+        return;
+      }
+      callback(null, response);
     }
-    console.log("customers: ", response);
-    callback(null, response);
-  });
+  );
 };
 
 module.exports = Article;
