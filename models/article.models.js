@@ -16,8 +16,8 @@ Article.getAll = (callback) => {
       callback(err, null);
       return;
     }
-    console.log("customers: ", res);
-    callback(null, res);
+    console.log("customers: ", response);
+    callback(null, response);
   });
 };
 
@@ -28,8 +28,8 @@ Article.getAllGroupedByCategories = (callback) => {
       callback(err, null);
       return;
     }
-    console.log("customers: ", res);
-    callback(null, res);
+    console.log("customers: ", response);
+    callback(null, response);
   });
 };
 
