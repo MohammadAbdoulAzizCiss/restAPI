@@ -10,7 +10,7 @@ const Article = function (article) {
 };
 
 Article.getAll = (callback) => {
-  sql.query("SELECT * FROM Article", (error, response) => {
+  sql.query("SELECT * FROM Article;", (error, response) => {
     if (error) {
       console.log("error: ", err);
       callback(err, null);
@@ -23,7 +23,7 @@ Article.getAll = (callback) => {
 Article.getAllGroupedByCategories = (callback) => {
   sql.query(
     `SELECT titre,contenu,libelle,dateCreation,dateModification,Article.id ,Categorie.libelle 
-            FROM Article INNER JOIN Categorie on Article.categorie = Categorie.id`,
+            FROM Article INNER JOIN Categorie on Article.categorie = Categorie.id;`,
     (error, response) => {
       if (error) {
         console.log("error: ", err);
@@ -34,5 +34,17 @@ Article.getAllGroupedByCategories = (callback) => {
     }
   );
 };
-
+Article.getArticlesByCategory = (id, callback) => {
+  sql.query(
+    `SELECT * FROM Article WHERE categorie = ${id}`,
+    (error, response) => {
+      if (error) {
+        console.log("error: ", err);
+        callback(err, null);
+        return;
+      }
+      callback(null, response);
+    }
+  );
+};
 module.exports = Article;

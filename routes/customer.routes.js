@@ -8,6 +8,7 @@ router.get("/", (request, response) => {
 
 //get all  articles
 router.get("/articles", articles.findAll);
+router.get("/articles/:categoryID", articles.findAllFromCategory);
 router.get("/articlesByCategory", articles.findAllGroupByCategory);
 //get All articles , grouped by categories
 
