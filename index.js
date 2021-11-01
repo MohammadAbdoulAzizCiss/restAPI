@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const routing = require("./routes/customer.routes");
 app.use(express.json());
-//route testing
+//routing
 app.use(routing);
 //port config
 const PORT = process.env.PORT;
