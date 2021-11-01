@@ -1,27 +1,31 @@
 const Article = require("../models/article.models");
+const o2x = require("object-to-xml");
 
-//implements at least all methods in DAO layer
 const findAll = (request, response) => {
-  //logic for handling json or xml
   Article.getAll((error, data) => {
     if (error)
       response.status(500).send({
         message:
           error.message || "some error happened while retrieving the data",
       });
-    else response.send(data);
+    else {
+      data = { ...data };
+      response.send(request.query.format === "xml" ? o2x(data) : data);
+    }
   });
 };
 
 const findAllGroupByCategory = (request, response) => {
-  //logic for handling json or xml
   Article.getAllGroupedByCategories((error, data) => {
     if (error)
       response.status(500).send({
         message:
           error.message || "some error happened while retrieving the data",
       });
-    else response.send(data);
+    else {
+      data = { ...data };
+      response.send(request.query.format === "xml" ? o2x(data) : data);
+    }
   });
 };
 const findAllFromCategory = (request, response) => {
@@ -36,8 +40,8 @@ const findAllFromCategory = (request, response) => {
             error.message || "some error happened while retrieving the data",
         });
       else {
-        console.log(typeof data);
-        response.send(data);
+        data = { ...data };
+        response.send(request.query.format === "xml" ? o2x(data) : data);
       }
     });
   }
