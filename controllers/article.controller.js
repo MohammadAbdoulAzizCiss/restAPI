@@ -46,8 +46,29 @@ const findAllFromCategory = (request, response) => {
     });
   }
 };
+const updateOne = (request, response) => {
+  const article = request.body.article;
+  Article.updateArticle(article, (error, data) => {
+    if (error) response.send({ error });
+    response.send({ data });
+  });
+};
+const deleteOne = (request, response) => {
+  Article.deleteArticle(request.params.ID, (error, data) => {
+    if (error)
+      response.status(500).send({
+        error,
+      });
+    else {
+      response.json({ data });
+    }
+  });
+};
+
 module.exports = {
   findAll,
   findAllGroupByCategory,
   findAllFromCategory,
+  deleteOne,
+  updateOne,
 };
