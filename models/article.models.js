@@ -12,7 +12,7 @@ const Article = function (article) {
 Article.getAll = callback => {
   sql.query("SELECT * FROM Article;", (error, response) => {
     if (error) {
-      callback(err, null);
+      callback(error, null);
       return;
     }
     callback(null, response);
@@ -25,7 +25,7 @@ Article.getAllGroupedByCategories = callback => {
             FROM Article INNER JOIN Categorie on Article.categorie = Categorie.id;`,
     (error, response) => {
       if (error) {
-        callback(err, null);
+        callback(error, null);
         return;
       }
       callback(null, response);
@@ -37,7 +37,7 @@ Article.getArticlesByCategory = (id, callback) => {
     `SELECT * FROM Article WHERE categorie = ${id}`,
     (error, response) => {
       if (error) {
-        callback(err, null);
+        callback(error, null);
         return;
       }
       callback(null, response);
@@ -49,7 +49,7 @@ Article.updateArticle = (article, callback) => {
     `UPDATE Article SET titre ='${article.titre}',contenu ='${article.contenu}',categorie ='${article.categorie}' WHERE id = ${article.id};`,
     (error, response) => {
       if (error) {
-        callback(err, null);
+        callback(error, null);
         return;
       }
       if (response.affectedRows == 0) {
@@ -74,5 +74,22 @@ Article.deleteArticle = (id, callback) => {
     }
     callback(null, response);
   });
+};
+Article.createOne = (article, callback) => {
+  sql.query(
+    `INSERT INTO Article (titre,contenu,categorie,editeur) VALUES ('${article.titre}','${article.contenu}',${article.categorie},'${article.editeur}');`,
+    (error, response) => {
+      if (error) {
+        callback(error, null);
+        return;
+      }
+      if (response.affectedRows == 0) {
+        // not found Article with the id
+        callback({ kind: "DUPLICATE" }, null);
+        return;
+      }
+      callback(null, { ...article });
+    }
+  );
 };
 module.exports = Article;

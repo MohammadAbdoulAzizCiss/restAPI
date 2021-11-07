@@ -64,6 +64,17 @@ const deleteOne = (request, response) => {
     }
   });
 };
+const insertOne = (request, response) => {
+  const article = request.body.article;
+  if (Object.values(article).every(value => value)) {
+    Article.createOne(article, (error, data) => {
+      if (error) response.send({ error });
+      response.send({ data });
+    });
+  } else {
+    response.send({ message: "missing fields" });
+  }
+};
 
 module.exports = {
   findAll,
@@ -71,4 +82,5 @@ module.exports = {
   findAllFromCategory,
   deleteOne,
   updateOne,
+  insertOne,
 };
